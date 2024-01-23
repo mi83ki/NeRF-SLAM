@@ -22,4 +22,19 @@ WORKDIR /home/terada/work/NeRF-SLAM
 RUN apt install -y python3-dev
 COPY requirements.txt .
 RUN pip install -r requirements.txt
-#RUN pip install -r ./thirdparty/gtsam/python/requirements.txt
+COPY ./thirdparty ./thirdparty/
+RUN pip install -r ./thirdparty/gtsam/python/requirements.txt
+
+## cmake
+RUN wget https://github.com/Kitware/CMake/releases/download/v3.28.1/cmake-3.28.1.tar.gz
+RUN tar -zxvf cmake-3.28.1.tar.gz
+RUN apt install -y openssl libssl-dev
+RUN cd cmake-3.28.1 && ./bootstrap 
+RUN cd cmake-3.28.1 && make 
+RUN cd cmake-3.28.1 && make install
+
+## X11
+RUN apt install -y libx11-dev libxrandr-dev libvulkan-dev glslang-dev libxinerama-dev libxcursor-dev libxi-dev libglew-dev
+
+RUN cmake ./thirdparty/instant-ngp -B build_ngp
+RUN cmake --build build_ngp --config RelWithDebInfo -j
