@@ -171,3 +171,5 @@ cython_debug/
 #.idea/
 build_ngp/
 optix/
+build_gtsam/
+Datasets/

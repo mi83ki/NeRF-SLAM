@@ -42,6 +42,7 @@ RUN cmake ./thirdparty/instant-ngp -B build_ngp
 RUN cmake --build build_ngp --config RelWithDebInfo -j
 
 ##
-#RUN cmake ./thirdparty/gtsam -DGTSAM_BUILD_PYTHON=1 -B build_gtsam 
+RUN apt install -y libeigen3-dev
+#RUN cmake ./thirdparty/gtsam -DGTSAM_BUILD_PYTHON=1 -DGTSAM_USE_SYSTEM_EIGEN=ON -B build_gtsam 
 #RUN cmake --build build_gtsam --config RelWithDebInfo -j
 #RUN cd build_gtsam && make python-install
