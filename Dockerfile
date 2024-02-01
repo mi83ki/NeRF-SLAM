@@ -59,5 +59,3 @@ RUN cd build_gtsam && make python-install
 RUN pip install git+https://github.com/princeton-vl/lietorch.git
 
 RUN python setup.py install
-
-WORKDIR /NeRF-SLAM-host
