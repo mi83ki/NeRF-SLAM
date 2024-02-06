@@ -65,11 +65,17 @@
 </details>
 
 ## Install
+You can choose to install either (a) in bare-metal form or (b) using Docker containers.
 
+### (a)Install on the Bare-metal
 Clone repo with submodules:
 ```
 git clone https://github.com/ToniRV/NeRF-SLAM.git --recurse-submodules
+cd NeRF-SLAM
 git submodule update --init --recursive
+pushd ./thirdparty/instant-ngp
+git checkout -b feature/nerf_slam origin/feature/nerf_slam
+popd
 ```
 
 From this point on, use a virtual environment...
@@ -104,6 +110,20 @@ Install:
 python setup.py install
 ```
 
+### (b) Install using Docker
+
+Build Docker image
+```
+./docker_build.sh
+```
+
+Run Docker Container
+```
+./docker_run.sh <container_name>
+```
+
+###
+
 ## Download Sample Data
 
 This will just download one of the replica scenes:
@@ -118,7 +138,7 @@ python ./examples/slam_demo.py --dataset_dir=./Datasets/Replica/office0 --datase
 ```
 in container:
 ```
-python ./examples/slam_demo.py --dataset_dir=/Datasets/Replica/office0 --dataset_name=nerf --buffer=100 --slam --parallel_run --img_stride=2 --fusion='nerf' --multi_gpu --gui
+python ./examples/slam_demo.py --dataset_dir=/Datasets/Replica/office0 --dataset_name=nerf --buffer=100 --slam --parallel_run --img_stride=2 --fusion='nerf' --gui
 ```
 
 This repo also implements [Sigma-Fusion](https://arxiv.org/abs/2210.01276): just change `--fusion='sigma'` to run that.
