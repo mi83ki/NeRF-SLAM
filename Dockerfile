@@ -19,6 +19,8 @@ RUN pip install torch==1.12.1+cu113 torchvision==0.13.1+cu113 --extra-index-url 
 
 ## Clone sources
 RUN apt install -y openssh-client
+
+ADD .git/index /tmp/dummy
 # github.com のための公開鍵をダウンロード
 RUN mkdir -p -m 0600 ~/.ssh && ssh-keyscan github.com >> ~/.ssh/known_hosts
 
@@ -41,21 +43,31 @@ RUN apt install -y libtbb-dev
 ## cmake
 RUN apt-get update -y
 RUN apt install -y cmake
+##
+RUN pip install colored-glog
+RUN apt install -y libglib2.0-0/jammy-updates
 
 ## NGP
+### change branch
+RUN cd ./thirdparty/instant-ngp && git checkout -b feature/nerf_slam origin/feature/nerf_slam
 RUN apt-get install -y libopenexr-dev libxi-dev libglfw3-dev libglew-dev libomp-dev libxinerama-dev libxcursor-dev
 RUN cmake ./thirdparty/instant-ngp -B build_ngp
 RUN cmake --build build_ngp --config RelWithDebInfo -j
 
-##
-RUN apt install -y libeigen3-dev
-RUN pip install colored-glog
+
+## eigen
+RUN cd ./thirdparty/eigen && mkdir build && cd build && cmake ..
+RUN cd ./thirdparty/eigen && cd build && make install
 
 ## GTSAM
 RUN cmake ./thirdparty/gtsam -DGTSAM_BUILD_PYTHON=1 -DGTSAM_USE_SYSTEM_EIGEN=ON -B build_gtsam 
 RUN cmake --build build_gtsam --config RelWithDebInfo -j
 RUN cd build_gtsam && make python-install
 
-RUN pip install git+https://github.com/princeton-vl/lietorch.git
+## lietorch
+RUN cd ./thirdparty/lietorch && python setup.py install
+#RUN cd ./thirdparty/lietorch && ./run_tests.sh
+#RUN pip install git+https://github.com/princeton-vl/lietorch.git
 
 RUN python setup.py install
+
