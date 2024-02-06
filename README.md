@@ -119,7 +119,7 @@ Build Docker image
 
 Run Docker Container
 ```
-./docker_run.sh <container_name>
+./docker_run.sh <container_nick_name>
 ```
 
 ###
