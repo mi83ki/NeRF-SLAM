@@ -32,7 +32,7 @@ ADD .git/index /tmp/dummy
 RUN mkdir -p -m 0600 ~/.ssh && ssh-keyscan github.com >> ~/.ssh/known_hosts
 
 ## プライベート・リポジトリのクローン
-RUN --mount=type=ssh git clone git@github.com:hterada/NeRF-SLAM.git -b dev/docker-build --recurse-submodules
+RUN git clone https://github.com/mi83ki/NeRF-SLAM.git -b dev/docker-build --recurse-submodules
 RUN cd NeRF-SLAM && git submodule update --init --recursive
 
 WORKDIR /NeRF-SLAM

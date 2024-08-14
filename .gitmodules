@@ -10,4 +10,4 @@
 	branch = feature/nerf_slam
 [submodule "thirdparty/gtsam"]
 	path = thirdparty/gtsam
-	url = git@github.com:hterada/gtsam.git
+	url = https://github.com/hterada/gtsam.git
